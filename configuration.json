@@ -1,0 +1,28 @@
+{
+  "monitor1": {
+    "cluster_id": "<ic_cluster_id_1>",
+    "env": "<environment_tag_1>",
+    "metrics_list": "n::cpuutilization,n::cassandraReads,n::cassandraWrites,n::nodeStatus,cf::<keyspace_1>::<columnfamily_1>::readlatency,cf::<keyspace_1>::<columnfamily_1>::writelatency,cf::<keyspace_1>::<columnfamily_2>::readlatency,cf::<keyspace_1>::<columnfamily_2>::writelatency",
+    "dd_options": {
+      "api_key": "<data_dog_api_key>",
+      "app_key": "<data_dog_app_key>"
+    },
+    "ic_options": {
+      "user_name": "<ic_login>",
+      "api_key": "<ic_api_key>"
+    }
+  },
+  "default": {
+    "cluster_id": "<ic_cluster_id_2",
+    "env": "<environment_tag_2>",
+    "metrics_list": "n::cpuutilization,n::cassandraReads,n::cassandraWrites,n::nodeStatus,cf::<keyspace_2>::<columnfamily_1>::readlatency,cf::<keyspace_2>::<columnfamily_1>::writelatency,cf::<keyspace_2>::<columnfamily_2>::readlatency,cf::<keyspace_2::columnfamily_2>::writelatency",
+    "dd_options": {
+      "api_key": "<data_dog_api_key>",
+      "app_key": "<data_dog_app_key>"
+    },
+    "ic_options": {
+      "user_name": "<ic_login>",
+      "api_key": "<ic_api_key>"
+    }
+  }
+}
