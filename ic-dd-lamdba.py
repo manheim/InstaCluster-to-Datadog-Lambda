@@ -11,7 +11,7 @@ f = open(configFile)
 configuration = json.loads(f.read())
 f.close()
 
-cf_specific_metrics = ['readLatency', 'writeLatency', 'sstables', 'tombstones', 'liveCells']
+cf_specific_metrics = ['readLatency', 'writeLatency', 'sstablesPerRead', 'tombstonesPerRead', 'liveCellsPerRead']
 
 def lambda_handler(event, context):
     print "Gathering stats from cassandra at {0}".format(str(datetime.now()))
@@ -27,8 +27,10 @@ def lambda_handler(event, context):
     initialize(**dd_options)    
 
     auth_details = HTTPBasicAuth(username=configuration[key]['ic_options']['user_name'], password=configuration[key]['ic_options']['api_key'])
+
+    print "https://api.instaclustr.com/monitoring/v1/clusters/{0}?metrics={1}".format(configuration[key]['cluster_id'], configuration[key]['metrics_list'])
     
-    response = requests.get(url="https://api.instaclustr.com/monitoring/v1/clusters/{0}?metrics={1},".format(configuration[key]['cluster_id'], configuration[key]['metrics_list']), auth=auth_details)
+    response = requests.get(url="https://api.instaclustr.com/monitoring/v1/clusters/{0}?metrics={1}".format(configuration[key]['cluster_id'], configuration[key]['metrics_list']), auth=auth_details)
     #print "Got Response:  {0}".format(response.content)
 
     if not response.ok:
