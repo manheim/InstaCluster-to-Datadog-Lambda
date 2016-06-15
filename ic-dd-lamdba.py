@@ -34,9 +34,10 @@ def lambda_handler(event, context):
     if not response.ok:
         print "Could not fetch metrics from IC: {0} - {1}".format(response.status_code, response.content)
     else: 
-        metric_count = 0;
+        metric_count = 0
         metrics = json.loads(response.content)
         for node in metrics:
+            send_list = []
             public_ip = node["publicIp"]
             az = node["rack"]["name"]
             print "{0} : {1}".format(public_ip, az)
@@ -55,8 +56,11 @@ def lambda_handler(event, context):
 
                 if metric["metric"] != "nodeStatus":
                     #print "{0} : {1}".format(dd_metric_name, metric["values"][0]["value"])
-                    api.Metric.send(metric=dd_metric_name, points=[(time_val,metric["values"][0]["value"])],host=public_ip, tags=tags)
+                    send_list.append({'metric' : dd_metric_name, 'points' : [(time_val,metric["values"][0]["value"])], 'host' : public_ip, 'tags' : tags})
                     metric_count += 1
+            
+            dd_response = api.Metric.send(send_list)
+            print dd_response
 
         print('{0} cassandra stats uploaded. completed at {1}'.format(metric_count, str(datetime.now())))
 
