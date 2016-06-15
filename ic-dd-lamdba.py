@@ -11,7 +11,7 @@ f = open(configFile)
 configuration = json.loads(f.read())
 f.close()
 
-cf_specific_metrics = ['readLatency', 'writelatency', 'sstables', 'tombstones', 'liveCells']
+cf_specific_metrics = ['readLatency', 'writeLatency', 'sstables', 'tombstones', 'liveCells']
 
 def lambda_handler(event, context):
     print "Gathering stats from cassandra at {0}".format(str(datetime.now()))
