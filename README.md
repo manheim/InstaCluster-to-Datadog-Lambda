@@ -4,7 +4,7 @@
 
 
 ####API Docs
-* [Instaclustr monitoring API](http://docs.datadoghq.com/api/)
+* [Instaclustr monitoring API](https://support.instaclustr.com/hc/en-us/articles/209695488-Monitoring-API)
 * [Datadog API] (http://docs.datadoghq.com/api/)
 
 ####AWS Docs
