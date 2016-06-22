@@ -2,6 +2,7 @@ from datadog import initialize, api
 from datetime import datetime
 import requests, json
 from requests.auth import HTTPBasicAuth
+import time
 
 epoch = datetime(1970, 1, 1)
 myformat = "%Y-%m-%dT%H:%M:%S.%fZ"
@@ -45,7 +46,10 @@ def lambda_handler(event, context):
             print "{0} : {1}".format(public_ip, az)
             for metric in node["payload"]:
                 dd_metric_name = 'instaclustr.{0}'.format(metric["metric"])
-                
+
+                if (not metric["values"]):
+                    continue
+
                 mydt = datetime.strptime(metric["values"][0]["time"], myformat)
                 time_val= int((mydt - epoch).total_seconds())
 
@@ -60,11 +64,17 @@ def lambda_handler(event, context):
                     #print "{0} : {1}".format(dd_metric_name, metric["values"][0]["value"])
                     send_list.append({'metric' : dd_metric_name, 'points' : [(time_val,metric["values"][0]["value"])], 'host' : public_ip, 'tags' : tags})
                     metric_count += 1
-            
-            dd_response = api.Metric.send(send_list)
-            print dd_response
+
+            if (send_list):        
+                print "Sending: {0}".format(send_list)
+                dd_response = api.Metric.send(send_list)
+                print dd_response
+            else:
+                print "Nothing to send for node: {0}".format(public_ip)
 
         print('{0} cassandra stats uploaded. completed at {1}'.format(metric_count, str(datetime.now())))
+
+
 
 
 
