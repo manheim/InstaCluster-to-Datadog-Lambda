@@ -1,6 +1,6 @@
 # InstaCluster-to-Datadog-Lambda 
 ---
-###A scheduled AWS lambda function to extract stats from the instaclustr monitoring API and upload them to DataDog
+###A scheduled AWS lambda function to extract stats from the instaclustr monitoring API and upload them to Datadog
 
 
 ####API Docs
